@@ -9,7 +9,10 @@ def get_mini_data():
     email = request.args.get('user')
     pass_ = request.args.get('pass')
     cookie = request.args.get('cookie')
-    return json.dumps(get_leaderboard_data(x=30, cookie=cookie))
+    if cookie != None:
+        return json.dumps(get_leaderboard_data(x=30, cookie=cookie))
+    else:
+        return json.dumps(get_leaderboard_data(x=30, username=email, password=pass_))
     
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
