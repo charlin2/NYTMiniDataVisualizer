@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, request
 from mini_scraper import get_leaderboard_data
 import json
 
