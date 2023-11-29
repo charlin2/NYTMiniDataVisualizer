@@ -43,7 +43,7 @@ def get_leaderboard_data(x: int, username=None, password=None, cookie=None) -> l
     Returns:
         list: List of json objects containing leaderboard data from the past x days
     """
-    dates = last_days(x)
+    dates = __last_days(x)
     if cookie == None:
         cookie = login(username, password)
     leaderboard_data = {}
@@ -57,13 +57,7 @@ def get_leaderboard_data(x: int, username=None, password=None, cookie=None) -> l
     return leaderboard_data
 
 
-def write_to_json(username, password, x):
-    data = get_leaderboard_data(username, password, x)
-    with open("./sample.json", "w") as outfile:
-        json.dump(data, outfile, indent=4)
-
-
-def last_days(x: int) -> list:
+def __last_days(x: int) -> list:
     """Returns a datetime list of the last x days from today
 
     Returns:
@@ -77,31 +71,3 @@ def last_days(x: int) -> list:
     return dates
 
 
-def get_avg_ranks(data):
-    rank_dict = {}
-    num_occurrences = {}
-    for key in data.keys():
-        solvers = data[key]["data"]
-        last_rank = 1
-        for solver in solvers:
-            rank_dict.setdefault(solver["name"], 0)
-            num_occurrences.setdefault(solver["name"], 1)
-            if "score" in solver.keys():
-                if "rank" not in solver.keys():
-                    rank_dict[solver["name"]] += int(last_rank)
-                    num_occurrences[solver["name"]] += 1
-                else:
-                    rank_dict[solver["name"]] += int(solver["rank"])
-                    num_occurrences[solver["name"]] += 1
-                    last_rank = solver["rank"]
-    for solver in rank_dict.keys():
-        num_occurrences[solver] -= 1
-        if num_occurrences[solver] != 0:
-            rank_dict[solver] /= num_occurrences[solver]
-    sorted_by_place = dict(sorted(num_occurrences.items(), key=(lambda x:x[1]), reverse=True))
-    for solver in sorted_by_place.keys():
-        print("Average place for " + solver + ": " + str(rank_dict[solver]) + "\n Minis completed: " + str(num_occurrences[solver]))
-        if rank_dict[solver] != 0:
-            print("Completed to Rank ratio: " + str(num_occurrences[solver]/rank_dict[solver]))
-        else:
-            print("This solver has not completed any puzzles this month!")
