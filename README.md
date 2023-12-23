@@ -11,8 +11,9 @@ In order to access a user's mini data, we need to have their NYT-S cookie (a lon
     * Note that this method is quite finicky and **may lead to getting locked out of your account (due to "bot login").**
 2. **Recommended method**: Extract the cookie from browser using dev tools.
     * Log in to NYT and use "Inspect" to bring up the console.
-    * Input the following line to get your cookie: ```document.cookie.split('; ').find(r=>r.startsWith('NYT-S')).split('=')[1]```
-        * Command courtesy of [Observable](https://observablehq.com/@observablehq/nyt-minis)
+    * Input the following line to get your cookie:
+        * ```document.cookie.split('; ').find(r=>r.startsWith('NYT-S')).split('=')[1]```
+           * Command courtesy of [Observable](https://observablehq.com/@observablehq/nyt-minis)
     * Copy and paste your cookie into the application.
     * My own testing has shown that this method will not get you locked out of your account (fingers crossed).
     * As with any other sensitive data, keep your cookie safe! Anyone can spoof your account if they have your cookie (this application does not store your login/cookie).
